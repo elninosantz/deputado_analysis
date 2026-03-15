@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+src/deputado_analysis.egg-info/PKG-INFO
+src/deputado_analysis.egg-info/SOURCES.txt
+src/deputado_analysis.egg-info/dependency_links.txt
+src/deputado_analysis.egg-info/requires.txt
+src/deputado_analysis.egg-info/top_level.txt
+src/extract/api_deputados.py
+src/transform/limpeza_deputados.py

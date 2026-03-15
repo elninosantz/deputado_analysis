@@ -1,16 +1,14 @@
 import requests
 
-def id_deputados() -> dict:
+def id_deputados() -> dict[str, str]:
     """ Retorna o id de deputados
 
     Consulta dados de deputados, utilizando como parametro de consulta principal, estrutura temporal:
     dataInicio: inicio dos dados
     dataFim: fim dos dados
 
-    Args:
-        sem argumentos
-    Returns:
-        Dicionario contendo ID de deputados
+    :return:
+        dict: contendo ID de deputados
     """
     ids_deputados = {}
     headers = {
@@ -31,5 +29,24 @@ def id_deputados() -> dict:
         ids_deputados['ids_deputados'].append(item['id'])
     return ids_deputados
 
-idss_deputados = id_deputados()
-print(idss_deputados)
+
+def df_deputados() -> dict[str, str]:
+    """Coleta de dados dos deputados
+
+    Consulta de dados na api, passando os parametros de id de cada deputado e extraindo os dados
+    dos deputados.
+
+    :return:
+        dict: dados dos deputados
+    """
+
+    ids_deputados = id_deputados()
+    deputados_raw = {}
+    for ids in ids_deputados['ids_deputados']:
+        headers = {
+            'accept': 'application/json',
+        }
+
+        response = requests.get(f'https://dadosabertos.camara.leg.br/api/v2/deputados/{ids}',headers=headers).json()
+        deputados_raw[ids] = response['dados']
+    return deputados_raw
