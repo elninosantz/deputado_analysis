@@ -17,4 +17,6 @@ def fetch_deputados_raw() -> list[dict]:
 
     response = session.get('https://dadosabertos.camara.leg.br/api/v2/deputados', params=params)
     response.raise_for_status()
-    return response.json()['dados']
+    data = response.json()['dados']
+    return data
+

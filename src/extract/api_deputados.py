@@ -19,4 +19,3 @@ def fetch_details_deputados() -> dict[int, dict]:
         deputados_raw[id_] = response.json()['dados']
 
     return deputados_raw
-

@@ -12,4 +12,3 @@ def get_id_deputados() -> list[int]:
         ids_deputados.append(deputado['id'])
 
     return ids_deputados
-

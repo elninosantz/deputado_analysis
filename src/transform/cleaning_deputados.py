@@ -18,5 +18,6 @@ def get_data_deputados() -> dict[int, dict]:
                 'siglaUF': ultimo_status['siglaUf'],
                 'siglaPartido': ultimo_status['siglaPartido'],
             }
-            break
+
     return processed_deputados
+

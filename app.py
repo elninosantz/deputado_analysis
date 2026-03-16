@@ -1,4 +1,5 @@
-from src.transform.cleaning_deputados import get_data_deputados
+from src.transform.cleaning_despesas import get_data_despesas
+import pandas as pd
 
-dados_raw = get_data_deputados()
-print(dados_raw)
+if __name__ == "__main__":
+    get_data_despesas()  
