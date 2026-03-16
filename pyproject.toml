@@ -5,8 +5,10 @@ description = "Análise de despesas de deputados durante a 57ª Legislatura"
 authors = [
     {name = "Augusto Cesar", email = "tiaugustocesar@gmail.com"}
 ]
+
 dependencies = [
-    "requests"
+    "requests",
+
 ]
 
 [project.urls]
