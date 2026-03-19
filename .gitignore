@@ -1,0 +1,6 @@
+..\**\__pycache__
+src\deputado_analysis.egg-info
+.idea
+.venv
+data\*.csv
+notebooks/

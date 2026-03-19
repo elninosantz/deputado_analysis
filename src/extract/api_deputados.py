@@ -3,10 +3,10 @@ import requests
 
 
 def fetch_details_deputados() -> dict[int, dict]:
-    """Consulta de dados detalhados dos deputados na API.
+    """Consulta de dados detalhados dos deputados na API através do ID.
 
     :return:
-        dict: dados dos deputados
+        dict
     """
 
     ids_deputados = get_id_deputados()

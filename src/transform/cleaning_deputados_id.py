@@ -4,7 +4,7 @@ def get_id_deputados() -> list[int]:
     """ Extrai os IDs dos deputados a partir dos dados brutos da API
 
     :return:
-        List: contendo os ids dos deputados
+        List
     """
     ids_deputados = []
     deputados_raw = fetch_deputados_raw()

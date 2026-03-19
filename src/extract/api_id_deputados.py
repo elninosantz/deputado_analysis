@@ -5,7 +5,7 @@ def fetch_deputados_raw() -> list[dict]:
     """ Consulta os dados dos deputados na API.
 
     :return:
-        list: contendo os dados de deputados
+        list
     """
 
     session = requests.Session()

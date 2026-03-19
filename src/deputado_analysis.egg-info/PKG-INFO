@@ -6,3 +6,4 @@ Author-email: Augusto Cesar <tiaugustocesar@gmail.com>
 Project-URL: homepage, https://github.com/elninosantz/deputado_analysis
 Project-URL: repository, https://github.com/elninosantz/deputado_analysis
 Requires-Dist: requests
+Requires-Dist: pandas

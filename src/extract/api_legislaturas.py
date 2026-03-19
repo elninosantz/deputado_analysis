@@ -2,11 +2,11 @@ import requests
 
 
 def fetch_legislatura() -> dict:
-    """ Consulta dados de legislatura na API.
+    """ Consulta dados de legislatura na API
 
 
     :return:
-        dict: dicionário de dados
+        dict
     """
 
     session = requests.Session()

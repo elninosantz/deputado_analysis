@@ -4,7 +4,7 @@ def get_data_deputados() -> dict[int, dict]:
     """ Extrai os dados detalhados dos deputados a partir dos dados brutos da API
 
     :return:
-        dict: dados processados dos deputados
+        dict
     """
     deputados_raw = fetch_details_deputados()
     processed_deputados = {}
