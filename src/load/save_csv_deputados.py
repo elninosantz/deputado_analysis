@@ -1,5 +1,5 @@
 from src.transform.cleaning_deputados import get_data_deputados
-import pandas as pd
+import polars as pl
 
 def save_csv_deputados()-> None:
     """ Salva os dados dos deputados, orientados a index em csv
@@ -8,7 +8,6 @@ def save_csv_deputados()-> None:
         None
     """ 
     deputados_raw = get_data_deputados()
-    df = pd.DataFrame.from_dict(deputados_raw, orient='index')
-    df.index.name = 'id'
-    df.to_csv('data/raw/deputados.csv')
-
+    registros = [{'id': id_, **dados} for id_, dados in deputados_raw.items()]
+    df = pl.DataFrame(registros)
+    df.write_csv('data/raw/deputados.csv')

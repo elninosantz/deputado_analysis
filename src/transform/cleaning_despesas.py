@@ -1,5 +1,6 @@
 from src.extract.api_despesas_deputados import fetch_despesas_deputados
-import pandas as pd
+import polars as pl
+
 
 def get_id_deputados() -> list[int]:
     """ Lê os dados csv e retorna como lista os id dos deputados
@@ -7,33 +8,28 @@ def get_id_deputados() -> list[int]:
     :returns:
         list: ids dos deputados
     """
-    deputados = pd.read_csv('data/raw/deputados.csv')
+    deputados = pl.read_csv('data/raw/deputados.csv')
     id_deputados = deputados['id'].to_list()
     
     return id_deputados
-    
 
 
-def get_data_despesas() -> dict[int, dict]:
-    """ Extrai os dados das despesas - valor das despesas, tipos de despesas, e ano das despesas
-      dos deputados através do ID.
+def get_data_despesas() -> dict[int, list[dict]]:
+    """ Extrai os dados das despesas dos deputados através do ID.
     
-      :return:
-        dict
+      :return: Dicionario contendo, valor das despesas, tipos de despesas e o ano das despesas
     """ 
-    despesas = {}
+    despesas_dos_deputados = {}
     id_deputados = get_id_deputados()
     for id_ in id_deputados:
         despesas_raw = fetch_despesas_deputados(id_)
-        for despesas in despesas_raw:
-            ano = despesas['ano']
-            tipo_de_despesas = despesas['tipoDespesa']
-            valor = despesas['valorLiquido']
-            despesas[id_] = {
-                'ano_despesa': ano,
-                'tipo_de_despesa': tipo_de_despesas,
-                'valor': valor
+        despesas_dos_deputados[id_] = [            
+            {
+                'tipoDespesa': despesa['tipoDespesa'],
+                'valorLiquido': despesa['valorLiquido'],
+                'ano': despesa['ano']
             }
-    return despesas
-
-     
+            for despesa in despesas_raw
+            ]
+        
+    return despesas_dos_deputados

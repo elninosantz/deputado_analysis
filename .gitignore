@@ -1,6 +1,80 @@
-..\**\__pycache__
-src\deputado_analysis.egg-info
-.idea
-.venv
-data\*.csv
-notebooks/
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+.Python
+
+# =====================
+# Distribuição / build
+# =====================
+dist/
+build/
+*.egg-info/
+*.egg
+*.whl
+MANIFEST
+
+# =====================
+# uv / virtualenv
+# =====================
+.venv/
+venv/
+env/
+.python-version
+
+# =====================
+# Dados
+# =====================
+data/
+*.csv
+*.parquet
+*.json
+*.db
+*.sqlite
+*.sqlite3
+
+# =====================
+# Notebooks
+# =====================
+.ipynb_checkpoints/
+*.ipynb
+
+# =====================
+# IDEs
+# =====================
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# =====================
+# Variáveis de ambiente
+# =====================
+.env
+.env.*
+!.env.example
+
+# =====================
+# macOS / Windows
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Logs
+# =====================
+*.log
+logs/
+
+# =====================
+# Testes / coverage
+# =====================
+.pytest_cache/
+.coverage
+htmlcov/
+
+.idea/

@@ -8,7 +8,7 @@ authors = [
 
 dependencies = [
     "requests",
-    "pandas"
+    "polars",
 ]
 
 [project.urls]
