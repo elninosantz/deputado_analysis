@@ -2,6 +2,8 @@
 
 ## Regras de Negócio
 
+> Para conhecer os desafios técnicos enfrentados durante o desenvolvimento do projeto, acesse: [Desafios Técnicos](desafios_tecnicos.md)
+
 ### Contexto
 
 O objetivo do projeto é extrair, estruturar e analisar dados dos deputados federais com base nos **mandatos mais recentes**.
@@ -54,7 +56,6 @@ Para fins de análise, apenas registros com status **Exercício** são mantidos.
 
 ---
 
-## Desafios Técnicos
 
 Durante o desenvolvimento do projeto, foi identificado um problema relacionado ao grande volume de requisições e ao possível **limite de uso da API**.
 
@@ -63,6 +64,13 @@ Como alternativa, foi adotada uma estratégia com uso de **proxies** para distri
 Para isso, foi utilizada a biblioteca `random`, responsável por selecionar os proxies de forma aleatória a cada requisição, reduzindo a repetição de uso de um mesmo endereço.
 
 As proxies utilizadas foram obtidas na plataforma [Webshare](http://webshare.io/).
+
+""" adiciona isso aqui tbm
+
+no começo do projeto eu estava utilizando pandas, mas depois de um conselho de um engenheiro de dados do Itaú, que é um colega meu, ele falou que eu deveria trocar o pandas pelos polares, porque o polares ele suporta mais e é muito mais rápido no processamento de dados do que o pandas quando a gente está trabalhando com big data. Então eu consegui trocar e eu acho que ficou bem mais rápido esse processamento.
+só que como o projeto não tem fundos de investimento e eu não queria usar proxies publicas por segurança, acabou que em um monmento as proxies gratuitas acabaram e eu fiquei sem alternativas ai minha alternativa foi:
+Alternativa foi em cada requisição eu configurei uma sessão, ou seja, eu criei uma função que cria uma sessão configurada para tentar de novo automaticamente quando a API faltar, esperando cada vez mais tempo entre as tentativas. Ou seja, eu criei uma função que cria uma sessão, essa sessão é configurada com um total de cinco tentativas e ela é forçada através de os 429, 502, 503, 504. Além, utilizamos as bibliotecas RequestAdapter e URLlib3 com Retry e HTTPAdapter. A gente utilizou o adapter para adaptar essa estimativa de tentativas através do configuração de tentativas que a gente configurou. Isso a gente pode ver no módulo API despesas deputado função criar sessão. A partir disso, para cada requisição também eu coloquei um timeout de 220 segundos. O objetivo foi respeitar o estresse que a gente estava causando pela quantidade de requisição direto na API. E na parte final das limpezas da extração dos dados, o que que eu fiz? No módulo Clean Despesas, eu puxei o createSession, eu criei a sessão, importei a sessão. E no final, quando termina de fazer uma requisição de um ID de um deputado, eu coloquei um time slip de 35 segundos, ou seja, ele está mais lento, mas está mais respeitoso e menos agressivo quanto estava antes e até o momento tem me trazido sorte, né? Não sorte, mas funcionado.
+
 
 ---
 
@@ -227,3 +235,5 @@ O objetivo deste projeto é construir uma base de dados estruturada que permita 
 - como se distribuem os **gastos anuais de cada deputado**
 
 Essas informações poderão ser utilizadas posteriormente para gerar **análises exploratórias, relatórios e dashboards interativos**.
+
+"""

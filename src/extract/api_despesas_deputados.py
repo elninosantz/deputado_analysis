@@ -1,40 +1,52 @@
 import requests
-import random
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
 
 BASE_URL = "https://dadosabertos.camara.leg.br/api/v2"
 ANOS = "2023,2024,2025,2026"
 HEADERS = {"accept": "application/json"}
+TIMEOUT = 220
 
 
-def load_proxies(path: str = "proxies.txt") -> list:
-    proxies = []
-    with open(path) as f:
-        for line in f:
-            ip, porta, usuario, senha = line.strip().split(":")
-            proxy_url = f"http://{usuario}:{senha}@{ip}:{porta}"
-            proxies.append({"http": proxy_url, "https": proxy_url})
-    return proxies
+def create_session() -> requests.Session:
+    """cria uma session configurada pra tentar de novo automaticamente quando a API falhar, esperando cada vez mais tempo entre as tentativas.
 
+    Returns:
+        requests.Session: Retorna uma session configurada para lidar continuamente com falhas temporárias da API.
+    """
+    session = requests.Session()
+    retry = Retry(
+        total=5,
+        backoff_factor=2,
+        status_forcelist=[429, 500, 502, 503, 504],
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
 
-PROXIES = load_proxies()
-
-
-def fetch_despesas_deputados(id_deputado: int) -> list:
+def fetch_despesas_deputados(id_deputado: int, session: requests.Session | None = None) -> list:
     """Consulta despesas de um deputado da API da Câmara dos Deputados,
     dos anos 2023 até 2026, paginando automaticamente.
 
     :param id_deputado: ID do deputado na API.
+    :param session: Session configurada para lidar com falhas temporárias.
+
     :return: Lista com todos os registros de despesas.
     """
+
+    if session is None:
+        session = create_session()
+
     despesas = []
     pagina = 1
 
     while True:
-        proxy = random.choice(PROXIES)
         response = requests.get(
             f"{BASE_URL}/deputados/{id_deputado}/despesas",
             headers=HEADERS,
-            proxies=proxy,
+            timeout=TIMEOUT,
             params={
                 "ano": ANOS,
                 "ordem": "ASC",

@@ -1,5 +1,6 @@
-from src.extract.api_despesas_deputados import fetch_despesas_deputados
+from src.extract.api_despesas_deputados import fetch_despesas_deputados, create_session
 import polars as pl
+import time
 
 
 def get_id_deputados() -> list[int]:
@@ -19,17 +20,26 @@ def get_data_despesas() -> dict[int, list[dict]]:
     
       :return: Dicionario contendo, valor das despesas, tipos de despesas e o ano das despesas
     """ 
+    i = 1
     despesas_dos_deputados = {}
     id_deputados = get_id_deputados()
-    for id_ in id_deputados:
-        despesas_raw = fetch_despesas_deputados(id_)
-        despesas_dos_deputados[id_] = [            
-            {
-                'tipoDespesa': despesa['tipoDespesa'],
-                'valorLiquido': despesa['valorLiquido'],
-                'ano': despesa['ano']
-            }
-            for despesa in despesas_raw
-            ]
-        
+    session = create_session()
+    total_deputados = len(id_deputados)
+
+    for i, id_ in enumerate(id_deputados, 1):
+        try:
+            despesas_raw = fetch_despesas_deputados(id_, session=session)
+            despesas_dos_deputados[id_] = [            
+                {
+                    'tipoDespesa': despesa['tipoDespesa'],
+                    'valorLiquido': despesa['valorLiquido'],
+                    'ano': despesa['ano']
+                }
+                for despesa in despesas_raw
+                ]
+            print(f"{i}/{total_deputados} — deputado {id_} extraído.", end="\r")
+            time.sleep(35)
+            
+        except Exception as e:
+            print(f"Erro ao extrair dados do deputado {id_}: {e}")
     return despesas_dos_deputados
