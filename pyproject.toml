@@ -9,6 +9,8 @@ authors = [
 dependencies = [
     "requests",
     "polars",
+    "streamlit>=1.55.0",
+    "plotly>=6.6.0",
 ]
 
 [project.urls]
