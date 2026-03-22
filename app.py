@@ -1,9 +1,7 @@
-from src.load.save_csv_despesas import save_csv_despesas
-from src.transform.cleaning_despesas import get_data_despesas
-from src.transform.transform_valortotal_despesas import transform_valortotal_despesas
+from src.transform.transform_nome_id import transform_nome_id
+
 import polars as pl
 
 if __name__ == "__main__":
-    valor = transform_valortotal_despesas()
-    
-    print(valor)
+    df = transform_nome_id()
+    print(df)
