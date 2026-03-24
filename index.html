@@ -264,7 +264,31 @@
   .bar-row.active { background: var(--surface2); }
   .bar-rank { width: 28px; font-size: 12px; color: var(--muted); text-align: right; flex-shrink: 0; }
   .bar-name { width: 190px; font-size: 13px; font-weight: 500; flex-shrink: 0; }
-  .bar-uf-tag { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; flex-shrink: 0; letter-spacing: 0.5px; }
+  .bar-uf-tag { 
+    font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; 
+    flex-shrink: 0; letter-spacing: 0.5px;
+    max-width: 120px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    cursor: help;
+    position: relative;
+  }
+  .bar-uf-tag:hover::after {
+    content: attr(data-full);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface2);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+  }
   .bar-wrap { flex: 1; height: 20px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
   .bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(.22,.68,0,1.2); }
   .bar-val { width: 100px; text-align: right; font-size: 13px; font-weight: 600; flex-shrink: 0; }
@@ -586,7 +610,7 @@ async function main() {
       row.innerHTML = `
         <div class="bar-rank">#${dep.rank}</div>
         <div class="bar-name" title="${dep.nome}">${dep.nomeDisplay}</div>
-        <div class="bar-uf-tag" style="background:${color}22;color:${color}">${dep.uf} · ${dep.partido}</div>
+        <div class="bar-uf-tag" style="background:${color}22;color:${color}" data-full="${dep.uf} · ${dep.partido}">${dep.uf} · ${dep.partido}</div>
         <div class="bar-wrap">
           <div class="bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
         </div>
