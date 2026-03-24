@@ -1,5 +1,5 @@
 # 📊 Deputado Analysis
-
+![Deploy](https://elninosantz.github.io/deputado_analysis/)
 > Análise transparente e acessível dos gastos parlamentares da 57ª Legislatura
 
 Uma plataforma completa para extrair, estruturar e analisar dados de despesas parlamentares da Câmara dos Deputados, transformando dados públicos em informações visuais e compreensíveis.
@@ -76,12 +76,12 @@ O projeto segue o padrão **ETL (Extract, Transform, Load)**:
          │ • GitHub Raw   │
          └───────┬────────┘
                  │
-         ┌───────▼────────────┐
-         │   VISUALIZAÇÃO     │
-         ├────────────────────┤
-         │ • Dashboard Web    │
-         │ • Gráficos interativos
-         └────────────────────┘
+         ┌───────▼────────────────┐
+         │   VISUALIZAÇÃO         │
+         ├────────────────────────┤
+         │ • Dashboard Web        │
+         │ • Gráficos interativos │
+         └────────────────────────┘
 ```
 
 ### Etapas do Pipeline
@@ -167,7 +167,6 @@ deputado_analysis/
 - **Contexto temporal**: Exibição automática do período legislativo
 
 ### Análise de Dados
-- **Top 20**: Primeiros 20 deputados com maiores gastos
 - **Top 100**: Ranking completo para análise contextual
 - **Top 5**: Maiores categorias de despesa por deputado
 - **Periodicidade**: Agregação de gastos por ano legislativo
