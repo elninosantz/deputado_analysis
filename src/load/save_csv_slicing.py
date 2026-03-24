@@ -1,4 +1,4 @@
-from transform.slicing_transform_df import transform_nome_id, transform_id_partido, transform_id_uf
+from src.transform.slicing_transform_df import transform_nome_id, transform_id_partido, transform_id_uf
 import polars as pl
 
 def save_csv_nome_id():
