@@ -1,5 +1,5 @@
-# 📊 Deputado Analysis
-![Deploy](https://elninosantz.github.io/deputado_analysis/)
+# 📊 Deputado Analysis - [Deploy](https://elninosantz.github.io/deputado_analysis/)
+
 > Análise transparente e acessível dos gastos parlamentares da 57ª Legislatura
 
 Uma plataforma completa para extrair, estruturar e analisar dados de despesas parlamentares da Câmara dos Deputados, transformando dados públicos em informações visuais e compreensíveis.
