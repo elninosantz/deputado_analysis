@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gastos Parlamentares — Quem gasta mais e por quê</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131c;
+    --surface2: #1a1a28;
+    --border: #252535;
+    --text: #e8e8f0;
+    --muted: #8888a8;
+    --accent: #f0a500;
+    --accent2: #e05a2b;
+    --norte: #3b9eff;
+    --nordeste: #a855f7;
+    --sul: #ef4444;
+    --outras: #6b7280;
+    --green: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,165,0,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    max-width: 680px;
+    margin: 0 auto 40px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    padding: 24px 40px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    flex: 1;
+    min-width: 180px;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── CONTEXT NARRATIVE ── */
+  .narrative {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+  .narrative h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--accent);
+  }
+  .narrative p {
+    color: #b0b0c8;
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .callout {
+    border-left: 3px solid var(--accent);
+    padding: 16px 24px;
+    background: rgba(240,165,0,0.07);
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .callout strong { color: var(--accent); }
+
+  /* ── REGION LEGEND ── */
+  .region-legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 1400px; margin: 0 auto; padding: 40px; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title .badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--surface2);
+    color: var(--muted);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  /* ── BAR CHART ── */
+  .bar-chart-section { margin-bottom: 60px; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .bar-row:hover { background: var(--surface); }
+  .bar-row.active { background: var(--surface2); }
+  .bar-rank {
+    width: 28px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-name {
+    width: 220px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+  }
+  .bar-uf-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+  .bar-wrap {
+    flex: 1;
+    height: 20px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(.22,.68,0,1.2);
+  }
+  .bar-val {
+    width: 110px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── DETAIL PANEL ── */
+  .detail-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin: 8px 0 16px 40px;
+    animation: slideDown 0.2s ease;
+  }
+  .detail-panel.open { display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .detail-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+  }
+  .detail-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .meta-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .detail-total {
+    text-align: right;
+  }
+  .detail-total .amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--accent);
+  }
+  .detail-total .label { font-size: 11px; color: var(--muted); }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media(max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
+
+  .detail-block-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  /* Year bars */
+  .year-bars { display: flex; flex-direction: column; gap: 10px; }
+  .year-row { display: flex; align-items: center; gap: 10px; }
+  .year-label { width: 40px; font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .year-bar-wrap { flex: 1; height: 14px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+  .year-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); opacity: 0.8; }
+  .year-val { width: 90px; text-align: right; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+
+  /* Expense items */
+  .expense-list { display: flex; flex-direction: column; gap: 8px; }
+  .expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 6px;
+    gap: 12px;
+  }
+  .expense-tipo { font-size: 12px; color: #b0b0c8; line-height: 1.4; flex: 1; }
+  .expense-val { font-size: 13px; font-weight: 600; color: var(--accent2); flex-shrink: 0; white-space: nowrap; }
+
+  /* ── CONTEXT ALERT ── */
+  .alert-darci {
+    background: rgba(224,90,43,0.08);
+    border: 1px solid rgba(224,90,43,0.3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 8px 0 16px 40px;
+    display: none;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #c8a090;
+  }
+  .alert-darci.show { display: block; }
+  .alert-darci strong { color: var(--accent2); }
+  .alert-icon { font-size: 18px; margin-right: 8px; }
+
+  /* ── REGION SUMMARY ── */
+  .region-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+  .region-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .region-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .region-card.Norte::before { background: var(--norte); }
+  .region-card.Nordeste::before { background: var(--nordeste); }
+  .region-card.Sul::before { background: var(--sul); }
+  .region-card-name { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .region-card-count { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .region-card.Norte .region-card-count { color: var(--norte); }
+  .region-card.Nordeste .region-card-count { color: var(--nordeste); }
+  .region-card.Sul .region-card-count { color: var(--sul); }
+  .region-card-sub { font-size: 12px; color: var(--muted); }
+
+  /* ── FOOTER NOTE ── */
+  .footer-note {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    line-height: 1.8;
+  }
+
+  /* Utility */
+  .fmt-brl(color) {}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Cota Parlamentar · Câmara dos Deputados</div>
+  <h1>Os 20 deputados<br>que <span>mais gastaram</span></h1>
+  <p class="hero-sub">
+    Uma análise dos maiores utilizadores da Cota para Exercício da Atividade Parlamentar (CEAP) — com contexto sobre por que deputados do Norte e Nordeste aparecem tanto no topo da lista.
+  </p>
+</div>
+
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num" style="color:var(--accent)">R$ 37,5M</div>
+    <div class="stat-label">Total gasto pelos 20</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" style="color:var(--norte)">11</div>
+    <div class="stat-label">Deputados do Norte</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" style="color:var(--nordeste)">7</div>
+    <div class="stat-label">Deputados do Nordeste</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" style="color:var(--sul)">2</div>
+    <div class="stat-label">Outras regiões</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" style="color:var(--accent2)">R$ 2,0M</div>
+    <div class="stat-label">Maior gasto individual</div>
+  </div>
+</div>
+
+<div class="narrative">
+  <h2>O contexto que os números não contam sozinhos</h2>
+  <p>
+    À primeira vista, ver tantos deputados do Norte e Nordeste no topo da lista de gastos pode gerar indignação. Mas há um fator estrutural que explica boa parte dessa diferença: a <strong>distância geográfica e a precariedade da infraestrutura de transporte</strong> nessas regiões.
+  </p>
+  <div class="callout">
+    <strong>Roraima, por exemplo:</strong> não tem acesso ferroviário, a malha rodoviária é limitada e voos até Brasília custam facilmente o dobro ou o triplo do que paga um deputado de São Paulo ou do Rio Grande do Sul. Um parlamentar de Boa Vista pode percorrer mais de 3.000 km para chegar à Câmara.
+  </div>
+  <p>
+    Isso não significa que todos os gastos são justificáveis — e a análise abaixo deixa claro quando algo foge do padrão. O caso mais emblemático é o do <strong>deputado gaúcho Darci Pompeo de Mattos</strong>, líder absoluto do ranking e que já foi alvo de processo por excesso de gastos com passagens aéreas — mesmo sendo do Rio Grande do Sul, muito mais próximo de Brasília do que qualquer estado do Norte.
+  </p>
+  <p>
+    Explore os dados clicando em cada deputado para ver o detalhamento por ano e as categorias de despesa.
+  </p>
+</div>
+
+<div class="region-legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--norte)"></div> Norte</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--nordeste)"></div> Nordeste</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--sul)"></div> Sul</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--outras)"></div> Outras</div>
+</div>
+
+<div class="main">
+
+  <!-- Region cards -->
+  <div style="margin-bottom:40px">
+    <div class="section-title">Distribuição Regional <span class="badge">Top 20</span></div>
+    <div class="region-summary">
+      <div class="region-card Norte">
+        <div class="region-card-name">Norte</div>
+        <div class="region-card-count">11</div>
+        <div class="region-card-sub">55% dos maiores gastadores<br>RR (5) · AC (3) · RO (2) · AP (1)</div>
+      </div>
+      <div class="region-card Nordeste">
+        <div class="region-card-name">Nordeste</div>
+        <div class="region-card-count">7</div>
+        <div class="region-card-sub">35% dos maiores gastadores<br>PE (3) · RN (2) · MA (1) · PB (1)</div>
+      </div>
+      <div class="region-card Sul">
+        <div class="region-card-name">Sul / Outras</div>
+        <div class="region-card-count">2</div>
+        <div class="region-card-sub">10% dos maiores gastadores<br>RS (2) — incluindo o 1º colocado</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bar chart -->
+  <div class="bar-chart-section">
+    <div class="section-title">Ranking de Gastos <span class="badge">Clique para expandir</span></div>
+    <div id="bar-chart"></div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  Dados extraídos da API de Dados Abertos da Câmara dos Deputados.<br>
+  Valores referentes à Cota para Exercício da Atividade Parlamentar (CEAP). Período: 2023–2026.
+</div>
+
+<script>
+const DEPUTADOS = [{"id":73486,"rank":1,"nome":"DARCI POMPEO DE MATTOS","partido":"PDT","uf":"RS","regiao":"Sul","total":2003330.71,"anos":[{"ano":2023,"valor_total":644056.54},{"ano":2024,"valor_total":667780.27},{"ano":2025,"valor_total":611758.32},{"ano":2026,"valor_total":79735.58}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1014237.43,"ranking":1},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":319538.65,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":205330.99,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":205295.94,"ranking":4},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":136623.34,"ranking":5}]},{"id":220590,"rank":2,"nome":"ULYSSES FREITAS PEREIRA DE ARAÚJO","partido":"UNIÃO","uf":"AC","regiao":"Norte","total":1934178.42,"anos":[{"ano":2023,"valor_total":602214.27},{"ano":2024,"valor_total":597642.93},{"ano":2025,"valor_total":609034.19},{"ano":2026,"valor_total":125287.03}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1055542.07,"ranking":1},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":322919.8,"ranking":2},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":262243.92,"ranking":3},{"tipo":"LOCAÇÃO OU FRETAMENTO DE AERONAVES","valor":103725.0,"ranking":4},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":99253.54,"ranking":5}]},{"id":220538,"rank":3,"nome":"JOSÉ FRANCISCO LOPES DE ALBUQUERQUE","partido":"REPUBLICANOS","uf":"RR","regiao":"Norte","total":1933471.26,"anos":[{"ano":2023,"valor_total":570765.19},{"ano":2024,"valor_total":611348.72},{"ano":2025,"valor_total":614116.4},{"ano":2026,"valor_total":137240.95}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1437855.88,"ranking":1},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":192813.44,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":115853.77,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":107740.33,"ranking":4},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":64510.8,"ranking":5}]},{"id":220537,"rank":4,"nome":"MARIA HELENA TEIXEIRA LIMA","partido":"MDB","uf":"RR","regiao":"Norte","total":1899781.95,"anos":[{"ano":2023,"valor_total":594566.58},{"ano":2024,"valor_total":606129.59},{"ano":2025,"valor_total":617489.93},{"ano":2026,"valor_total":81595.85}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1027641.67,"ranking":1},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":267910.9,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":265916.68,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":194562.95,"ranking":4},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":112099.05,"ranking":5}]},{"id":160591,"rank":5,"nome":"VINICIUS DE AZEVEDO GURGEL","partido":"PL","uf":"AP","regiao":"Norte","total":1899094.69,"anos":[{"ano":2023,"valor_total":600943.49},{"ano":2024,"valor_total":602510.23},{"ano":2025,"valor_total":590210.77},{"ano":2026,"valor_total":105430.2}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1075500.0,"ranking":1},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":316041.82,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":237600.0,"ranking":3},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":134971.24,"ranking":4},{"tipo":"LOCAÇÃO OU FRETAMENTO DE EMBARCAÇÕES","valor":133700.0,"ranking":5}]},{"id":220536,"rank":6,"nome":"JOSÉ HAROLDO FIGUEIREDO CAMPOS","partido":"PSD","uf":"RR","regiao":"Norte","total":1881174.92,"anos":[{"ano":2023,"valor_total":601500.91},{"ano":2024,"valor_total":635410.07},{"ano":2025,"valor_total":556290.68},{"ano":2026,"valor_total":87973.26}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1108735.0,"ranking":1},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":302520.92,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":226934.4,"ranking":3},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":179580.42,"ranking":4},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":50151.9,"ranking":5}]},{"id":224117,"rank":7,"nome":"GABRIEL MOTA E SILVA","partido":"REPUBLICANOS","uf":"RR","regiao":"Norte","total":1880967.83,"anos":[{"ano":2023,"valor_total":516019.27},{"ano":2024,"valor_total":627373.83},{"ano":2025,"valor_total":634574.73},{"ano":2026,"valor_total":103000.0}],"topGastos":[{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":848802.17,"ranking":1},{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":787032.3,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":162500.0,"ranking":3},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":61546.44,"ranking":4}]},{"id":204360,"rank":8,"nome":"SILVIA CRISTINA AMANCIO CHAGAS","partido":"PP","uf":"RO","regiao":"Norte","total":1879846.74,"anos":[{"ano":2023,"valor_total":593465.51},{"ano":2024,"valor_total":583274.4},{"ano":2025,"valor_total":612235.38},{"ano":2026,"valor_total":90871.45}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1335966.72,"ranking":1},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":203855.82,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":196089.05,"ranking":3},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":85379.61,"ranking":4},{"tipo":"HOSPEDAGEM (EXCETO NO DF)","valor":25785.76,"ranking":5}]},{"id":204423,"rank":9,"nome":"ANDRÉ FERREIRA RODRIGUES","partido":"PL","uf":"PE","regiao":"Nordeste","total":1868196.47,"anos":[{"ano":2023,"valor_total":604737.94},{"ano":2024,"valor_total":615871.97},{"ano":2025,"valor_total":576900.6},{"ano":2026,"valor_total":70685.96}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":631150.71,"ranking":1},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":404408.0,"ranking":2},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":319102.75,"ranking":3},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":241956.68,"ranking":4},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":235529.19,"ranking":5}]},{"id":220591,"rank":10,"nome":"ROZIMEIRE RIBEIRO ANDRADE","partido":"UNIÃO","uf":"AC","regiao":"Norte","total":1864340.54,"anos":[{"ano":2023,"valor_total":560487.15},{"ano":2024,"valor_total":606896.38},{"ano":2025,"valor_total":610769.07},{"ano":2026,"valor_total":86187.94}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":964675.7,"ranking":1},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":284713.0,"ranking":2},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":261592.07,"ranking":3},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":188938.3,"ranking":4},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":118228.37,"ranking":5}]},{"id":141459,"rank":11,"nome":"JOÃO DA SILVA MAIA","partido":"PP","uf":"RN","regiao":"Nordeste","total":1861333.28,"anos":[{"ano":2023,"valor_total":571858.18},{"ano":2024,"valor_total":602617.59},{"ano":2025,"valor_total":602581.82},{"ano":2026,"valor_total":84275.69}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":981100.0,"ranking":1},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":440066.67,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":183966.97,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":141191.28,"ranking":4},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":112213.3,"ranking":5}]},{"id":220608,"rank":12,"nome":"CRISTIANE LOPES DA LUZ","partido":"UNIÃO","uf":"RO","regiao":"Norte","total":1857979.8,"anos":[{"ano":2023,"valor_total":559716.93},{"ano":2024,"valor_total":584718.5},{"ano":2025,"valor_total":615228.91},{"ano":2026,"valor_total":98315.46}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":666260.96,"ranking":1},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":457413.0,"ranking":2},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":237405.92,"ranking":3},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":211366.69,"ranking":4},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":183195.05,"ranking":5}]},{"id":204473,"rank":13,"nome":"ELIÉSER GIRÃO MONTEIRO FILHO","partido":"PL","uf":"RN","regiao":"Nordeste","total":1853306.58,"anos":[{"ano":2023,"valor_total":590048.97},{"ano":2024,"valor_total":600795.27},{"ano":2025,"valor_total":591187.93},{"ano":2026,"valor_total":71274.41}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":566095.0,"ranking":1},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":559430.87,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":379643.13,"ranking":3},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":165294.88,"ranking":4},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":103314.78,"ranking":5}]},{"id":123756,"rank":14,"nome":"ANTÔNIA LUCILÉIA CRUZ RAMOS CÂMARA","partido":"REPUBLICANOS","uf":"AC","regiao":"Norte","total":1847439.68,"anos":[{"ano":2023,"valor_total":543586.21},{"ano":2024,"valor_total":569240.19},{"ano":2025,"valor_total":596611.39},{"ano":2026,"valor_total":138001.89}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1183730.32,"ranking":1},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":417312.55,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE AERONAVES","valor":220450.0,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":10610.55,"ranking":4},{"tipo":"PASSAGEM AÉREA - RPA","valor":6898.8,"ranking":5}]},{"id":141408,"rank":15,"nome":"CLEBER VERDE CORDEIRO MENDES","partido":"MDB","uf":"MA","regiao":"Nordeste","total":1845524.98,"anos":[{"ano":2023,"valor_total":590041.37},{"ano":2024,"valor_total":601217.98},{"ano":2025,"valor_total":583902.32},{"ano":2026,"valor_total":70363.31}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1274500.0,"ranking":1},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":192418.26,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":177973.12,"ranking":3},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":174849.6,"ranking":4},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":18784.0,"ranking":5}]},{"id":220662,"rank":16,"nome":"LUCAS CAVALCANTI RAMOS","partido":"PSB","uf":"PE","regiao":"Nordeste","total":1844029.95,"anos":[{"ano":2023,"valor_total":561812.5},{"ano":2024,"valor_total":621927.55},{"ano":2025,"valor_total":556390.12},{"ano":2026,"valor_total":103899.78}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":844434.4,"ranking":1},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":439415.03,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":262933.93,"ranking":3},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":247520.24,"ranking":4},{"tipo":"HOSPEDAGEM (EXCETO NO DF)","valor":21701.72,"ranking":5}]},{"id":204426,"rank":17,"nome":"JOSÉ CARLOS VERAS DOS SANTOS","partido":"PT","uf":"PE","regiao":"Nordeste","total":1843642.9,"anos":[{"ano":2023,"valor_total":559315.61},{"ano":2024,"valor_total":578353.88},{"ano":2025,"valor_total":572151.36},{"ano":2026,"valor_total":133822.05}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":490745.67,"ranking":1},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":354135.72,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":325540.87,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":319397.98,"ranking":4},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":228457.18,"ranking":5}]},{"id":204406,"rank":18,"nome":"PEDRO BANDARRA WESTPHALEN","partido":"PP","uf":"RS","regiao":"Sul","total":1838959.85,"anos":[{"ano":2023,"valor_total":580179.88},{"ano":2024,"valor_total":578219.55},{"ano":2025,"valor_total":576585.28},{"ano":2026,"valor_total":103975.14}],"topGastos":[{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":439249.35,"ranking":1},{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":423974.1,"ranking":2},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":361049.44,"ranking":3},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":313693.8,"ranking":4},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":157629.91,"ranking":5}]},{"id":220539,"rank":19,"nome":"STÉLIO DENER DE SOUZA CRUZ","partido":"REPUBLICANOS","uf":"RR","regiao":"Norte","total":1825601.23,"anos":[{"ano":2023,"valor_total":560240.44},{"ano":2024,"valor_total":613995.58},{"ano":2025,"valor_total":574811.94},{"ano":2026,"valor_total":76553.27}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":701905.79,"ranking":1},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":316784.82,"ranking":2},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":280220.0,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":243394.31,"ranking":4},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":229129.57,"ranking":5}]},{"id":220574,"rank":20,"nome":"GILBERTO GOMES DA SILVA","partido":"PL","uf":"PB","regiao":"Nordeste","total":1824511.95,"anos":[{"ano":2023,"valor_total":562287.6},{"ano":2024,"valor_total":595103.32},{"ano":2025,"valor_total":591318.96},{"ano":2026,"valor_total":75802.07}],"topGastos":[{"tipo":"DIVULGAÇÃO DA ATIVIDADE PARLAMENTAR.","valor":1181200.0,"ranking":1},{"tipo":"PASSAGEM AÉREA - SIGEPA","valor":363151.18,"ranking":2},{"tipo":"MANUTENÇÃO DE ESCRITÓRIO DE APOIO À ATIVIDADE PARLAMENTAR","valor":128700.21,"ranking":3},{"tipo":"COMBUSTÍVEIS E LUBRIFICANTES.","valor":105251.14,"ranking":4},{"tipo":"LOCAÇÃO OU FRETAMENTO DE VEÍCULOS AUTOMOTORES","valor":39150.0,"ranking":5}]}];
+
+const REGION_COLORS = {
+  Norte: 'var(--norte)',
+  Nordeste: 'var(--nordeste)',
+  Sul: 'var(--sul)',
+  'Centro-Oeste': 'var(--outras)',
+  Outras: 'var(--outras)'
+};
+
+function brl(v) {
+  return 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+function brlK(v) {
+  if (v >= 1e6) return 'R$ ' + (v/1e6).toFixed(2).replace('.',',') + 'M';
+  if (v >= 1e3) return 'R$ ' + (v/1e3).toFixed(0) + 'K';
+  return brl(v);
+}
+
+const maxVal = DEPUTADOS[0].total;
+let openId = null;
+
+function renderChart() {
+  const container = document.getElementById('bar-chart');
+  container.innerHTML = '';
+
+  DEPUTADOS.forEach(dep => {
+    const color = REGION_COLORS[dep.regiao];
+    const pct = (dep.total / maxVal * 100).toFixed(1);
+    const isDarci = dep.id === 73486;
+
+    // Bar row
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.dataset.id = dep.id;
+    row.innerHTML = `
+      <div class="bar-rank">#${dep.rank}</div>
+      <div class="bar-name" title="${dep.nome}">${dep.nome.split(' ').slice(0,2).join(' ')}</div>
+      <div class="bar-uf-tag" style="background:${color}22;color:${color}">${dep.uf} · ${dep.partido}</div>
+      <div class="bar-wrap">
+        <div class="bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
+      </div>
+      <div class="bar-val" style="color:${color}">${brlK(dep.total)}</div>
+    `;
+    row.addEventListener('click', () => toggleDetail(dep.id));
+    container.appendChild(row);
+
+    // Alert for Darci
+    if (isDarci) {
+      const alert = document.createElement('div');
+      alert.className = 'alert-darci';
+      alert.id = `alert-${dep.id}`;
+      alert.innerHTML = `<span class="alert-icon">⚠️</span><strong>Atenção:</strong> Darci Pompeo de Mattos (PDT-RS) é o maior gastador do ranking mesmo sendo do Rio Grande do Sul — estado com muito mais conectividade com Brasília do que os estados do Norte. Ele já foi alvo de processo por excesso de gastos com passagens aéreas, o que torna os seus números ainda mais notáveis frente ao contexto geográfico que justificaria parte dos gastos de seus colegas do Norte.`;
+      container.appendChild(alert);
+    }
+
+    // Detail panel
+    const panel = document.createElement('div');
+    panel.className = 'detail-panel';
+    panel.id = `detail-${dep.id}`;
+
+    const maxAno = Math.max(...dep.anos.map(a => a.valor_total));
+
+    panel.innerHTML = `
+      <div class="detail-header">
+        <div>
+          <div class="detail-name">${dep.nome}</div>
+          <div class="detail-meta">
+            <span class="meta-tag" style="background:${color}20;color:${color}">${dep.regiao}</span>
+            <span class="meta-tag">${dep.uf}</span>
+            <span class="meta-tag">${dep.partido}</span>
+            <span class="meta-tag">Rank #${dep.rank}</span>
+          </div>
+        </div>
+        <div class="detail-total">
+          <div class="amount">${brlK(dep.total)}</div>
+          <div class="label">total gasto</div>
+        </div>
+      </div>
+      <div class="detail-grid">
+        <div>
+          <div class="detail-block-title">Gasto por ano</div>
+          <div class="year-bars">
+            ${dep.anos.map(a => `
+              <div class="year-row">
+                <div class="year-label">${a.ano}</div>
+                <div class="year-bar-wrap">
+                  <div class="year-bar-fill" style="width:${(a.valor_total/maxAno*100).toFixed(1)}%;background:${color}"></div>
+                </div>
+                <div class="year-val" style="color:${color}">${brlK(a.valor_total)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="detail-block-title">Maiores categorias de despesa</div>
+          <div class="expense-list">
+            ${dep.topGastos.map(g => `
+              <div class="expense-item">
+                <div class="expense-tipo">${g.tipo.replace(/\.$/, '')}</div>
+                <div class="expense-val">${brlK(g.valor)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(panel);
+  });
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+  }, 100);
+}
+
+function toggleDetail(id) {
+  const panel = document.getElementById(`detail-${id}`);
+  const alert = document.getElementById(`alert-${id}`);
+  const row = document.querySelector(`.bar-row[data-id="${id}"]`);
+
+  if (openId === id) {
+    panel.classList.remove('open');
+    if (alert) alert.classList.remove('show');
+    row.classList.remove('active');
+    openId = null;
+  } else {
+    if (openId) {
+      document.getElementById(`detail-${openId}`)?.classList.remove('open');
+      document.getElementById(`alert-${openId}`)?.classList.remove('show');
+      document.querySelector(`.bar-row[data-id="${openId}"]`)?.classList.remove('active');
+    }
+    panel.classList.add('open');
+    if (alert) alert.classList.add('show');
+    row.classList.add('active');
+    openId = id;
+    row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+renderChart();
+</script>
+</body>
+</html>

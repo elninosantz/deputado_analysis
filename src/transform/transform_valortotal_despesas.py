@@ -21,5 +21,17 @@ def transform_valortotal_despesas() -> pl.DataFrame:
     return top20_mais_gastos
 
 def transform_valortotal_despesas_ano() -> pl.DataFrame:
-    ...
-    #TODO: Implementar a função para mostrar quanto cada deputado gastou em um ano.
+    """ Função agrupa os dados de id dos deputados, ano e soma os valores de despesas liquidos para obter o valor total gasto por cada deputado em cada ano da sua legislatura.
+
+    Returns:
+        pl.DataFrame: Retorna um Dataframe contendo colunas de id dos deputados, ano e valor total gasto por cada deputado em cada ano.
+    """
+    
+    anos_mais_gastos = (
+            despesas_raw
+            .group_by(['id', 'ano'])
+            .agg(pl.col('valorLiquido').sum())
+            .rename({'valorLiquido': 'valor_total'})
+            .sort('valor_total', descending=True)
+    )
+    return anos_mais_gastos
