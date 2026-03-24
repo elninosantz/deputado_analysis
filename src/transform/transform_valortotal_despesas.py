@@ -16,7 +16,7 @@ def transform_valortotal_despesas() -> pl.DataFrame:
             .agg(pl.col('valorLiquido').sum())
             .rename({'valorLiquido': 'valor_total'})
             .sort('valor_total', descending=True)
-            .head(20)
+            .head(99)
     )
     return top20_mais_gastos
 

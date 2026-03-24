@@ -136,6 +136,56 @@
   }
   .callout strong { color: var(--accent); }
 
+  /* ── EMPHASIS ── */
+  .emphasis {
+    border: 2px solid var(--accent);
+    padding: 18px 24px; background: rgba(240,165,0,0.1);
+    border-radius: 12px; margin: 24px 0; font-size: 16px; color: var(--text);
+    text-align: center; font-weight: 500;
+  }
+  .emphasis strong { color: var(--accent); font-weight: 700; }
+
+  /* ── ANALYSIS LIST ── */
+  .analysis-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: grid;
+    gap: 12px;
+  }
+  .analysis-list li {
+    position: relative;
+    padding: 16px 20px 16px 50px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    transition: all 0.2s ease;
+  }
+  .analysis-list li:hover {
+    background: var(--surface2);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .analysis-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
   /* ── LEGEND ── */
   .region-legend {
     display: flex; gap: 20px; justify-content: center;
@@ -309,17 +359,36 @@
   <div class="stats-strip" id="stats-strip"></div>
 
   <div class="narrative">
-    <h2>O contexto que os números não contam sozinhos</h2>
+    <h2>O contexto sobre os números</h2>
     <p>
-      À primeira vista, ver tantos deputados do Norte e Nordeste no topo da lista pode gerar indignação. Mas há um fator estrutural que explica boa parte dessa diferença: a <strong>distância geográfica e a precariedade da infraestrutura de transporte</strong> nessas regiões.
+        Este projeto tem como objetivo estruturar, processar e analisar dados públicos relacionados aos gastos parlamentares, com foco nos mandatos mais recentes da Câmara dos Deputados. A análise considera exclusivamente os parlamentares pertencentes à 57ª Legislatura, vigente no momento da coleta dos dados.
+    </p>
+
+    <div class="emphasis">
+        <strong>Período de Análise:</strong> Os dados analisados referem-se aos deputados da 57ª Legislatura, correspondente ao período de 01/02/2023 a 31/01/2027.
+    </div>
+
+    <p>
+        Como forma de contextualização, o projeto apresenta logo no início informações sobre a legislatura atual, incluindo seu nome, data de início e término. Essa referência temporal é essencial para garantir clareza e precisão na interpretação das análises apresentadas.
     </p>
     <div class="callout">
-      <strong>Roraima, por exemplo:</strong> não tem acesso ferroviário, a malha rodoviária é limitada e voos até Brasília custam facilmente o dobro ou o triplo do que paga um deputado de São Paulo. Um parlamentar de Boa Vista pode percorrer mais de 3.000 km para chegar à Câmara.
+      <strong>Informações Adicionais:</strong> A iniciativa surgiu a partir de estudos inspirados no projeto <a href="https://github.com/brasilemdados/Olho-Cidadao">Olho Cidadão</a>, com o propósito de ampliar a transparência e facilitar o acesso da população às informações sobre o uso de recursos públicos pelos deputados.
     </div>
     <p>
-      Isso não significa que todos os gastos são justificáveis. O caso mais emblemático é o do <strong>deputado gaúcho Darci Pompeo de Mattos</strong>, líder absoluto do ranking — mesmo sendo do Rio Grande do Sul, muito mais próximo de Brasília do que qualquer estado do Norte, e já alvo de processo por excesso de gastos com passagens aéreas.
+        A plataforma disponibiliza diferentes perspectivas de análise, incluindo:
     </p>
-    <p>Explore os dados clicando em cada deputado para ver o detalhamento por ano e as categorias de despesa.</p>
+
+    <ul class="analysis-list">
+        <li>Identificação dos 5 maiores gastos dos parlamentares.</li>
+        <li>Distribuição de deputados por região e seus respectivos gastos.</li>
+        <li>Análise de despesas por partido.</li>
+        <li>Ranking dos 100 deputados com maiores gastos.</li>
+    </ul>
+
+    <p>
+        O objetivo central é transformar dados públicos em informação acessível, promovendo maior conscientização da sociedade sobre a atuação e os gastos dos representantes eleitos.
+  </p>
+</div>
   </div>
 
   <div class="region-legend">
@@ -331,12 +400,12 @@
 
   <div class="main">
     <div style="margin-bottom:40px">
-      <div class="section-title">Distribuição Regional <span class="badge">Top 20</span></div>
+      <div class="section-title">Distribuição Regional <span class="badge">Top 100</span></div>
       <div class="region-summary" id="region-cards"></div>
     </div>
 
     <div style="margin-bottom:56px">
-      <div class="section-title">Partidos que Mais Gastaram <span class="badge">Entre os Top 20</span></div>
+      <div class="section-title">Partidos que Mais Gastaram <span class="badge">Entre os Top 100</span></div>
       <div class="partidos-grid" id="partidos-grid"></div>
     </div>
 
@@ -348,7 +417,7 @@
 
   <div class="footer-note">
     Dados extraídos da API de Dados Abertos da Câmara dos Deputados.<br>
-    Fonte: <a href="https://github.com/elninosantz/deputado_analysis" target="_blank">github.com/elninosantz/deputado_analysis</a> · Cota para Exercício da Atividade Parlamentar (CEAP).
+    desenvolvido por: <a href="https://github.com/elninosantz/deputado_analysis" target="_blank">github.com/elninosantz/deputado_analysis</a> · Cota para Exercício da Atividade Parlamentar (CEAP).
   </div>
 </div>
 
@@ -526,13 +595,6 @@ async function main() {
       row.addEventListener('click', () => toggleDetail(dep.id));
       container.appendChild(row);
 
-      if (dep.id === 73486) {
-        const alert = document.createElement('div');
-        alert.className = 'alert-darci';
-        alert.id = `alert-${dep.id}`;
-        alert.innerHTML = `⚠️ <strong>Atenção:</strong> Darci Pompeo de Mattos (PDT-RS) é o maior gastador do ranking mesmo sendo do Rio Grande do Sul — estado com muito mais conectividade com Brasília do que qualquer estado do Norte. Ele já foi alvo de processo por excesso de gastos com passagens aéreas.`;
-        container.appendChild(alert);
-      }
 
       const maxAno = dep.anos.length ? Math.max(...dep.anos.map(a => a.valor_total)) : 1;
       const panel = document.createElement('div');
