@@ -524,7 +524,7 @@ async function main() {
     deputados.forEach(d => { byRegiao[d.regiao] = (byRegiao[d.regiao] || 0) + 1; });
 
     document.getElementById('stats-strip').innerHTML = `
-      <div class="stat-item"><div class="stat-num" style="color:var(--accent)">${brlK(totalGeral)}</div><div class="stat-label">Total gasto pelos 20</div></div>
+      <div class="stat-item"><div class="stat-num" style="color:var(--accent)">${brlK(totalGeral)}</div><div class="stat-label">Total gasto pelos 100</div></div>
       <div class="stat-item"><div class="stat-num" style="color:var(--norte)">${byRegiao['Norte']||0}</div><div class="stat-label">Deputados do Norte</div></div>
       <div class="stat-item"><div class="stat-num" style="color:var(--nordeste)">${byRegiao['Nordeste']||0}</div><div class="stat-label">Deputados do Nordeste</div></div>
       <div class="stat-item"><div class="stat-num" style="color:var(--sul)">${(byRegiao['Sul']||0)+(byRegiao['Sudeste']||0)+(byRegiao['Centro-Oeste']||0)}</div><div class="stat-label">Outras regiões</div></div>
@@ -545,7 +545,7 @@ async function main() {
         return `<div class="region-card ${reg}">
           <div class="region-card-name">${reg}</div>
           <div class="region-card-count">${data.count}</div>
-          <div class="region-card-sub">${((data.count/20)*100).toFixed(0)}% dos maiores gastadores<br>${ufStr}</div>
+          <div class="region-card-sub"><br>${ufStr}</div>
         </div>`;
       }).join('');
 
