@@ -4,10 +4,10 @@ import time
 
 
 def get_id_deputados() -> list[int]:
-    """ Lê os dados csv e retorna como lista os id dos deputados
+    """Reads deputy data from CSV and returns IDs as a list.
 
-    :returns:
-        list: ids dos deputados
+    Returns:
+        list[int]: List of deputy IDs.
     """
     deputados = pl.read_csv('data/raw/deputados.csv')
     id_deputados = deputados['id'].to_list()
@@ -16,10 +16,11 @@ def get_id_deputados() -> list[int]:
 
 
 def get_data_despesas() -> dict[int, list[dict]]:
-    """ Extrai os dados das despesas dos deputados através do ID.
-    
-      :return: Dicionario contendo, valor das despesas, tipos de despesas e o ano das despesas
-    """ 
+    """Extracts deputy expenses data using their IDs.
+
+    Returns:
+        dict[int, list[dict]]: Dictionary containing expense values, types, and years.
+    """
     i = 1
     despesas_dos_deputados = {}
     id_deputados = get_id_deputados()

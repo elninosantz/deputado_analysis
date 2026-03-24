@@ -2,13 +2,11 @@ import requests
 
 
 def fetch_legislatura() -> dict:
-    """ Consulta dados de legislatura na API
+    """Fetches legislature data from the API.
 
-
-    :return:
-        dict
+    Returns:
+        dict: A dictionary containing legislature data.
     """
-
     session = requests.Session()
     headers = {
         'accept': 'application/json',

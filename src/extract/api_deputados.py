@@ -3,12 +3,11 @@ import requests
 
 
 def fetch_details_deputados() -> dict[int, dict]:
-    """Consulta de dados detalhados dos deputados na API através do ID.
+    """Fetches detailed data of deputies from the API using their IDs.
 
-    :return:
-        dict
+    Returns:
+        dict[int, dict]: A dictionary mapping deputy IDs to their detailed data.
     """
-
     ids_deputados = get_id_deputados()
     deputados_raw = {}
     session = requests.Session()

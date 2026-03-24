@@ -10,10 +10,10 @@ TIMEOUT = 220
 
 
 def create_session() -> requests.Session:
-    """cria uma session configurada pra tentar de novo automaticamente quando a API falhar, esperando cada vez mais tempo entre as tentativas.
+    """Creates a session configured to retry automatically on API failures, with increasing wait times.
 
     Returns:
-        requests.Session: Retorna uma session configurada para lidar continuamente com falhas temporárias da API.
+        requests.Session: A configured session to handle temporary API failures continuously.
     """
     session = requests.Session()
     retry = Retry(
@@ -27,15 +27,15 @@ def create_session() -> requests.Session:
     return session
 
 def fetch_despesas_deputados(id_deputado: int, session: requests.Session | None = None) -> list:
-    """Consulta despesas de um deputado da API da Câmara dos Deputados,
-    dos anos 2023 até 2026, paginando automaticamente.
+    """Fetches expenses of a deputy from the Chamber of Deputies API for years 2023 to 2026, with automatic pagination.
 
-    :param id_deputado: ID do deputado na API.
-    :param session: Session configurada para lidar com falhas temporárias.
+    Args:
+        id_deputado (int): The deputy's ID in the API.
+        session (requests.Session | None): A configured session to handle temporary failures. If None, a new session is created.
 
-    :return: Lista com todos os registros de despesas.
+    Returns:
+        list: A list with all expense records.
     """
-
     if session is None:
         session = create_session()
 

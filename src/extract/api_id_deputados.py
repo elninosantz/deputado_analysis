@@ -2,12 +2,11 @@ import requests
 
 
 def fetch_deputados_raw() -> list[dict]:
-    """ Consulta os dados dos deputados na API.
+    """Fetches raw deputy data from the API.
 
-    :return:
-        list
+    Returns:
+        list[dict]: A list of dictionaries containing deputy data.
     """
-
     session = requests.Session()
     params = {
         'idLegislatura': '57',

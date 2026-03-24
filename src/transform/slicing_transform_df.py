@@ -8,6 +8,11 @@ df_id_dep_despesas = df_despesas.select(['id']).to_series().to_list()
 
 
 def transform_maiores_gastos():
+    """Filters the top expenses data to include only deputies with expense records.
+
+    Returns:
+        pl.DataFrame: Filtered DataFrame with ID, expense type, net value, and ranking.
+    """
     maiores_gastos = pl.read_csv('data/raw/maiores_gastos.csv')
     maiores_gastos_filtrados = (
         maiores_gastos
@@ -17,12 +22,13 @@ def transform_maiores_gastos():
     return maiores_gastos_filtrados
 
 def transform_nome_id() -> pl.DataFrame:
-    """ Filtrou os dados dos deputados para obter somente o nome e o id dos 20 deputados que mais gastaram, utilizando como a base os dados das despesas já limpos.
+    """Filters deputy data to get names and IDs of the top spending deputies.
+
+    Uses cleaned expense data as the base to filter deputies.
 
     Returns:
-        pl.DataFrame: Retorna um dataframe contendo os nomes e ids dos deputados.
+        pl.DataFrame: DataFrame containing deputy names and IDs.
     """
-
     deputados_filtrados_nome_id = (
         df_deputados
         .filter(pl.col('id').is_in(df_id_dep_despesas))
@@ -33,12 +39,13 @@ def transform_nome_id() -> pl.DataFrame:
 
 
 def transform_id_uf() -> pl.DataFrame:
-    """ Filtrou os dados dos deputados para obter somente o id e a uf dos 20 deputados que mais gastaram, utilizando como a base os dados das despesas já limpos.
+    """Filters deputy data to get IDs and states of the top spending deputies.
+
+    Uses cleaned expense data as the base to filter deputies.
 
     Returns:
-        pl.DataFrame: Retorna um dataframe contendo os ids e ufs dos deputados.
+        pl.DataFrame: DataFrame containing deputy IDs and state abbreviations.
     """
-
     deputados_filtrados_id_uf = (
         df_deputados
         .filter(pl.col('id').is_in(df_id_dep_despesas))
@@ -49,12 +56,13 @@ def transform_id_uf() -> pl.DataFrame:
 
 
 def transform_id_partido() -> pl.DataFrame:
-    """ Filtrou os dados dos deputados para obter somente o id e o partido dos 20 deputados que mais gastaram, utilizando como a base os dados das despesas já limpos.
+    """Filters deputy data to get IDs and parties of the top spending deputies.
+
+    Uses cleaned expense data as the base to filter deputies.
 
     Returns:
-        pl.DataFrame: Retorna um dataframe contendo os ids e partidos dos deputados.
+        pl.DataFrame: DataFrame containing deputy IDs and party abbreviations.
     """
-
     deputados_filtrados_id_partido = (
         df_deputados
         .filter(pl.col('id').is_in(df_id_dep_despesas))

@@ -1,10 +1,10 @@
 from src.extract.api_id_deputados import fetch_deputados_raw
 
 def get_id_deputados() -> list[int]:
-    """ Extrai os IDs dos deputados a partir dos dados brutos da API
+    """Extracts deputy IDs from raw API data.
 
-    :return:
-        List
+    Returns:
+        list[int]: A list of deputy IDs.
     """
     ids_deputados = []
     deputados_raw = fetch_deputados_raw()

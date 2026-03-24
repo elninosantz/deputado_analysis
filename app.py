@@ -7,6 +7,11 @@ import urllib.parse
 import polars as pl
 
 def legislatura():
+    """Opens the web page with the current legislature information encoded in the URL.
+
+    Retrieves the legislature data, encodes it, and opens the corresponding web page
+    in the default browser with the legislature parameter.
+    """
     base_temporal_legislatura = get_data_legislaturas()
     texto_encoded = urllib.parse.quote(base_temporal_legislatura)
     url = f"https://elninosantz.github.io/deputado_analysis/index.html?legislatura={texto_encoded}"

@@ -1,10 +1,13 @@
 from src.extract.api_deputados import fetch_details_deputados
 
 def get_data_deputados() -> dict[int, dict]:
-    """ Extrai os dados detalhados dos deputados a partir dos dados brutos da API
+    """Extracts detailed deputy data from raw API data.
 
-    :return:
-        dict
+    Processes the raw deputy data to include only active deputies with their
+    civil name, state abbreviation, and party abbreviation.
+
+    Returns:
+        dict[int, dict]: A dictionary mapping deputy IDs to their processed data.
     """
     deputados_raw = fetch_details_deputados()
     processed_deputados = {}
