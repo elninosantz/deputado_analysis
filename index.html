@@ -33,7 +33,7 @@
     overflow-x: hidden;
   }
 
-  /* ── LEGISLATURA BANNER ── */
+  /* LEGISLATURA BANNER */
   .legislatura-banner {
     background: linear-gradient(135deg, rgba(240,165,0,0.15) 0%, rgba(240,165,0,0.05) 100%);
     border-bottom: 1px solid rgba(240,165,0,0.3);
@@ -41,53 +41,31 @@
     text-align: center;
   }
   .legislatura-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 4px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 4px;
   }
-  .legislatura-text {
-    font-size: 15px;
-    color: var(--text);
-    font-weight: 500;
-  }
+  .legislatura-text { font-size: 15px; color: var(--text); font-weight: 500; }
 
-  /* ── LOADING ── */
+  /* LOADING */
   #loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    gap: 20px;
-    color: var(--muted);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 60vh; gap: 20px; color: var(--muted);
   }
   .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
+    width: 40px; height: 40px; border: 3px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   #app { display: none; }
 
-  /* ── HERO ── */
+  /* HERO */
   .hero {
-    position: relative;
-    padding: 70px 40px 50px;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
+    position: relative; padding: 70px 40px 50px;
+    text-align: center; border-bottom: 1px solid var(--border); overflow: hidden;
   }
   .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,165,0,0.12) 0%, transparent 70%);
     pointer-events: none;
   }
@@ -97,96 +75,57 @@
   }
   .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 64px);
-    font-weight: 900; line-height: 1.1; margin-bottom: 24px;
+    font-size: clamp(32px, 5vw, 64px); font-weight: 900; line-height: 1.1; margin-bottom: 24px;
   }
   .hero h1 span { color: var(--accent); }
-  .hero-sub {
-    max-width: 680px; margin: 0 auto;
-    color: var(--muted); font-size: 16px; line-height: 1.7;
-  }
+  .hero-sub { max-width: 680px; margin: 0 auto; color: var(--muted); font-size: 16px; line-height: 1.7; }
 
-  /* ── STATS ── */
+  /* STATS */
   .stats-strip {
     display: flex; justify-content: center;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); flex-wrap: wrap;
   }
   .stat-item {
     padding: 22px 36px; text-align: center;
-    border-right: 1px solid var(--border);
-    flex: 1; min-width: 160px;
+    border-right: 1px solid var(--border); flex: 1; min-width: 160px;
   }
   .stat-item:last-child { border-right: none; }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px;
-  }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
   .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
 
-  /* ── NARRATIVE ── */
+  /* NARRATIVE */
   .narrative { max-width: 820px; margin: 0 auto; padding: 56px 40px; }
   .narrative h2 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 18px; color: var(--accent); }
   .narrative p { color: #b0b0c8; margin-bottom: 16px; font-size: 15px; line-height: 1.8; }
   .callout {
-    border-left: 3px solid var(--accent);
-    padding: 14px 22px; background: rgba(240,165,0,0.07);
-    border-radius: 0 8px 8px 0; margin: 22px 0; font-size: 15px; color: var(--text);
+    border-left: 3px solid var(--accent); padding: 14px 22px;
+    background: rgba(240,165,0,0.07); border-radius: 0 8px 8px 0; margin: 22px 0; font-size: 15px; color: var(--text);
   }
   .callout strong { color: var(--accent); }
+  .callout a { color: var(--accent); }
 
-  /* ── EMPHASIS ── */
   .emphasis {
-    border: 2px solid var(--accent);
-    padding: 18px 24px; background: rgba(240,165,0,0.1);
-    border-radius: 12px; margin: 24px 0; font-size: 16px; color: var(--text);
-    text-align: center; font-weight: 500;
+    border: 2px solid var(--accent); padding: 18px 24px;
+    background: rgba(240,165,0,0.1); border-radius: 12px; margin: 24px 0;
+    font-size: 16px; color: var(--text); text-align: center; font-weight: 500;
   }
   .emphasis strong { color: var(--accent); font-weight: 700; }
 
-  /* ── ANALYSIS LIST ── */
-  .analysis-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-    display: grid;
-    gap: 12px;
-  }
+  .analysis-list { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 12px; }
   .analysis-list li {
-    position: relative;
-    padding: 16px 20px 16px 50px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
-    transition: all 0.2s ease;
+    position: relative; padding: 16px 20px 16px 50px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-size: 14px; line-height: 1.6; transition: all 0.2s ease;
   }
-  .analysis-list li:hover {
-    background: var(--surface2);
-    border-color: var(--accent);
-    transform: translateY(-2px);
-  }
+  .analysis-list li:hover { background: var(--surface2); border-color: var(--accent); transform: translateY(-2px); }
   .analysis-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 16px;
-    top: 16px;
-    width: 20px;
-    height: 20px;
-    background: var(--accent);
-    color: var(--bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
+    content: '✓'; position: absolute; left: 16px; top: 16px;
+    width: 20px; height: 20px; background: var(--accent); color: var(--bg);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: bold;
   }
 
-  /* ── LEGEND ── */
+  /* LEGEND */
   .region-legend {
     display: flex; gap: 20px; justify-content: center;
     padding: 18px 40px; flex-wrap: wrap; border-bottom: 1px solid var(--border);
@@ -194,13 +133,11 @@
   .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-  /* ── MAIN ── */
+  /* MAIN */
   .main { max-width: 1400px; margin: 0 auto; padding: 40px; }
-
   .section-title {
     font-family: 'Playfair Display', serif; font-size: 22px;
-    margin-bottom: 24px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   }
   .badge {
@@ -209,7 +146,7 @@
     background: var(--surface2); color: var(--muted); padding: 4px 10px; border-radius: 4px;
   }
 
-  /* ── REGION CARDS ── */
+  /* REGION CARDS */
   .region-summary {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px; margin-bottom: 56px;
@@ -218,13 +155,11 @@
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 10px; padding: 20px; position: relative; overflow: hidden;
   }
-  .region-card::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-  }
-  .region-card.Norte::before    { background: var(--norte); }
-  .region-card.Nordeste::before { background: var(--nordeste); }
-  .region-card.Sul::before      { background: var(--sul); }
-  .region-card.Sudeste::before  { background: var(--outras); }
+  .region-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+  .region-card.Norte::before      { background: var(--norte); }
+  .region-card.Nordeste::before   { background: var(--nordeste); }
+  .region-card.Sul::before        { background: var(--sul); }
+  .region-card.Sudeste::before    { background: var(--outras); }
   .region-card.Centro-Oeste::before { background: var(--outras); }
   .region-card-name { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
   .region-card-count { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
@@ -235,65 +170,91 @@
   .region-card.Centro-Oeste .region-card-count { color: var(--outras); }
   .region-card-sub { font-size: 12px; color: var(--muted); }
 
-  /* ── PARTIDOS ── */
+  /* PARTIDOS */
   .partidos-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 12px; margin-bottom: 56px;
   }
   .partido-card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 14px 18px;
-    display: flex; align-items: center; gap: 14px;
+    border-radius: 8px; padding: 14px 18px; display: flex; align-items: center; gap: 14px;
   }
   .partido-rank { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--muted); width: 28px; flex-shrink: 0; }
   .partido-rank.top { color: var(--accent); }
-  .partido-info { flex: 1; }
+  .partido-info { flex: 1; min-width: 0; }
   .partido-sigla { font-weight: 700; font-size: 15px; }
   .partido-dep { font-size: 11px; color: var(--muted); }
   .partido-bar-wrap { height: 4px; background: var(--surface2); border-radius: 2px; margin-top: 6px; }
   .partido-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); }
   .partido-val { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--accent2); flex-shrink: 0; }
 
-  /* ── BAR CHART ── */
+  /* ── BAR CHART — FIX PRINCIPAL ── */
   .bar-row {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 6px; cursor: pointer; padding: 6px 8px;
-    border-radius: 6px; transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    padding: 5px 8px;
+    border-radius: 6px;
+    transition: background 0.15s;
   }
   .bar-row:hover { background: var(--surface); }
   .bar-row.active { background: var(--surface2); }
-  .bar-rank { width: 28px; font-size: 12px; color: var(--muted); text-align: right; flex-shrink: 0; }
-  .bar-name { width: 190px; font-size: 13px; font-weight: 500; flex-shrink: 0; }
-  .bar-uf-tag { 
-    font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; 
-    flex-shrink: 0; letter-spacing: 0.5px;
-    max-width: 120px; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-    cursor: help;
-    position: relative;
-  }
-  .bar-uf-tag:hover::after {
-    content: attr(data-full);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--surface2);
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    font-size: 11px;
-    white-space: nowrap;
-    z-index: 10;
-    pointer-events: none;
-  }
-  .bar-wrap { flex: 1; height: 20px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(.22,.68,0,1.2); }
-  .bar-val { width: 100px; text-align: right; font-size: 13px; font-weight: 600; flex-shrink: 0; }
 
-  /* ── DETAIL PANEL ── */
+  /* Larguras FIXAS em todos os elementos não-barra */
+  .bar-rank {
+    width: 28px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-name {
+    width: 160px;          /* fixo, não encolhe nem expande */
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-uf-tag {
+    width: 130px;          /* largura fixa — resolve o desalinhamento */
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    display: inline-block;
+  }
+  .bar-wrap {
+    flex: 1;               /* a barra pega TODO o espaço restante */
+    min-width: 0;          /* evita overflow em flex */
+    height: 18px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(.22,.68,0,1.2);
+  }
+  .bar-val {
+    width: 88px;           /* fixo */
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* DETAIL PANEL */
   .detail-panel {
     display: none; background: var(--surface); border: 1px solid var(--border);
     border-radius: 12px; padding: 26px; margin: 6px 0 14px 40px;
@@ -304,24 +265,15 @@
     from { opacity: 0; transform: translateY(-8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .detail-header {
-    display: flex; justify-content: space-between;
-    align-items: flex-start; margin-bottom: 22px; flex-wrap: wrap; gap: 12px;
-  }
+  .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
   .detail-name { font-family: 'Playfair Display', serif; font-size: 20px; }
   .detail-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-  .meta-tag {
-    font-size: 11px; font-weight: 600; padding: 3px 10px;
-    border-radius: 4px; background: var(--surface2); color: var(--muted); letter-spacing: 0.5px;
-  }
+  .meta-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; background: var(--surface2); color: var(--muted); letter-spacing: 0.5px; }
   .detail-total .amount { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--accent); }
   .detail-total .label { font-size: 11px; color: var(--muted); text-align: right; }
   .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
   @media(max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
-  .detail-block-title {
-    font-size: 11px; font-weight: 600; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
-  }
+  .detail-block-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .year-bars { display: flex; flex-direction: column; gap: 10px; }
   .year-row { display: flex; align-items: center; gap: 10px; }
   .year-label { width: 40px; font-size: 12px; color: var(--muted); flex-shrink: 0; }
@@ -329,14 +281,11 @@
   .year-bar-fill { height: 100%; border-radius: 3px; }
   .year-val { width: 90px; text-align: right; font-size: 12px; font-weight: 500; flex-shrink: 0; }
   .expense-list { display: flex; flex-direction: column; gap: 8px; }
-  .expense-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 14px; background: var(--bg); border-radius: 6px; gap: 12px;
-  }
+  .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--bg); border-radius: 6px; gap: 12px; }
   .expense-tipo { font-size: 12px; color: #b0b0c8; line-height: 1.4; flex: 1; }
   .expense-val { font-size: 13px; font-weight: 600; color: var(--accent2); flex-shrink: 0; white-space: nowrap; }
 
-  /* ── ALERT ── */
+  /* ALERT */
   .alert-darci {
     background: rgba(224,90,43,0.08); border: 1px solid rgba(224,90,43,0.3);
     border-radius: 10px; padding: 16px 20px; margin: 6px 0 14px 40px;
@@ -345,17 +294,16 @@
   .alert-darci.show { display: block; }
   .alert-darci strong { color: var(--accent2); }
 
-  /* ── FOOTER ── */
-  .footer-note {
-    text-align: center; padding: 40px; color: var(--muted);
-    font-size: 12px; border-top: 1px solid var(--border); line-height: 1.8;
-  }
+  /* FOOTER */
+  .footer-note { text-align: center; padding: 40px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); line-height: 1.8; }
   .footer-note a { color: var(--accent); text-decoration: none; }
 
   @media(max-width: 600px) {
     .hero, .narrative { padding-left: 20px; padding-right: 20px; }
     .main { padding: 24px 16px; }
-    .bar-name { width: 130px; font-size: 12px; }
+    .bar-name { width: 110px; font-size: 11px; }
+    .bar-uf-tag { width: 90px; font-size: 9px; }
+    .bar-val { width: 70px; font-size: 11px; }
   }
 </style>
 </head>
@@ -385,34 +333,27 @@
   <div class="narrative">
     <h2>O contexto sobre os números</h2>
     <p>
-        Este projeto tem como objetivo estruturar, processar e analisar dados públicos relacionados aos gastos parlamentares, com foco nos mandatos mais recentes da Câmara dos Deputados. A análise considera exclusivamente os parlamentares pertencentes à 57ª Legislatura, vigente no momento da coleta dos dados.
+      Este projeto tem como objetivo estruturar, processar e analisar dados públicos relacionados aos gastos parlamentares, com foco nos mandatos mais recentes da Câmara dos Deputados. A análise considera exclusivamente os parlamentares pertencentes à 57ª Legislatura, vigente no momento da coleta dos dados.
     </p>
-
     <div class="emphasis">
-        <strong>Período de Análise:</strong> Os dados analisados referem-se aos deputados da 57ª Legislatura, correspondente ao período de 01/02/2023 a 31/01/2027.
+      <strong>Período de Análise:</strong> Os dados analisados referem-se aos deputados da 57ª Legislatura, tendo sido extraídos em 28 de março de 2026, às 20:49.
     </div>
-
     <p>
-        Como forma de contextualização, o projeto apresenta logo no início informações sobre a legislatura atual, incluindo seu nome, data de início e término. Essa referência temporal é essencial para garantir clareza e precisão na interpretação das análises apresentadas.
+      Como forma de contextualização, o projeto apresenta logo no início informações sobre a legislatura atual, incluindo seu nome, data de início e término. Essa referência temporal é essencial para garantir clareza e precisão na interpretação das análises apresentadas.
     </p>
     <div class="callout">
       <strong>Informações Adicionais:</strong> A iniciativa surgiu a partir de estudos inspirados no projeto <a href="https://github.com/brasilemdados/Olho-Cidadao">Olho Cidadão</a>, com o propósito de ampliar a transparência e facilitar o acesso da população às informações sobre o uso de recursos públicos pelos deputados.
     </div>
-    <p>
-        A plataforma disponibiliza diferentes perspectivas de análise, incluindo:
-    </p>
-
+    <p>A plataforma disponibiliza diferentes perspectivas de análise, incluindo:</p>
     <ul class="analysis-list">
-        <li>Identificação dos 5 maiores gastos dos parlamentares.</li>
-        <li>Distribuição de deputados por região e seus respectivos gastos.</li>
-        <li>Análise de despesas por partido.</li>
-        <li>Ranking dos 100 deputados com maiores gastos.</li>
+      <li>Identificação dos 5 maiores gastos dos parlamentares.</li>
+      <li>Distribuição de deputados por região e seus respectivos gastos.</li>
+      <li>Análise de despesas por partido.</li>
+      <li>Ranking dos 100 deputados com maiores gastos.</li>
     </ul>
-
     <p>
-        O objetivo central é transformar dados públicos em informação acessível, promovendo maior conscientização da sociedade sobre a atuação e os gastos dos representantes eleitos.
-  </p>
-</div>
+      O objetivo central é transformar dados públicos em informação acessível, promovendo maior conscientização da sociedade sobre a atuação e os gastos dos representantes eleitos.
+    </p>
   </div>
 
   <div class="region-legend">
@@ -427,12 +368,10 @@
       <div class="section-title">Distribuição Regional <span class="badge">Top 100</span></div>
       <div class="region-summary" id="region-cards"></div>
     </div>
-
     <div style="margin-bottom:56px">
       <div class="section-title">Partidos que Mais Gastaram <span class="badge">Entre os Top 100</span></div>
       <div class="partidos-grid" id="partidos-grid"></div>
     </div>
-
     <div>
       <div class="section-title">Ranking de Gastos <span class="badge">Clique para expandir</span></div>
       <div id="bar-chart"></div>
@@ -503,7 +442,6 @@ document.getElementById('legislatura-text').textContent = legParam
   ? decodeURIComponent(legParam)
   : 'Os dados analisados referem-se aos deputados da 57ª Legislatura, correspondente ao período de 01/02/2023 a 31/01/2027.';
 
-// ── RENDER ──────────────────────────────────────────────────
 let openId = null;
 
 async function main() {
@@ -529,7 +467,7 @@ async function main() {
     });
 
     const deputados = valorTotal.map((r, i) => {
-      const uf = ufsMap[r.id] || '??';
+      const uf   = ufsMap[r.id] || '??';
       const nome = nomesMap[r.id] || 'Desconhecido';
       return {
         id: r.id, rank: i + 1, nome,
@@ -544,7 +482,7 @@ async function main() {
 
     // Stats
     const totalGeral = deputados.reduce((s, d) => s + d.total, 0);
-    const byRegiao = {};
+    const byRegiao   = {};
     deputados.forEach(d => { byRegiao[d.regiao] = (byRegiao[d.regiao] || 0) + 1; });
 
     document.getElementById('stats-strip').innerHTML = `
@@ -565,7 +503,10 @@ async function main() {
     document.getElementById('region-cards').innerHTML = Object.entries(regioesMapa)
       .sort((a, b) => b[1].count - a[1].count)
       .map(([reg, data]) => {
-        const ufStr = Object.entries(data.ufs).map(([u, c]) => `${u}${c > 1 ? ` (${c})` : ''}`).join(' · ');
+        const ufStr = Object.entries(data.ufs)
+          .sort((a,b) => b[1]-a[1])
+          .map(([u, c]) => `${u}${c > 1 ? ` (${c})` : ''}`)
+          .join(' · ');
         return `<div class="region-card ${reg}">
           <div class="region-card-name">${reg}</div>
           <div class="region-card-count">${data.count}</div>
@@ -596,13 +537,13 @@ async function main() {
       </div>`).join('');
 
     // Bar chart
-    const maxVal = deputados[0].total;
+    const maxVal    = deputados[0].total;
     const container = document.getElementById('bar-chart');
     container.innerHTML = '';
 
     deputados.forEach(dep => {
       const color = REGION_COLORS[dep.regiao];
-      const pct = (dep.total / maxVal * 100).toFixed(1);
+      const pct   = (dep.total / maxVal * 100).toFixed(1);
 
       const row = document.createElement('div');
       row.className = 'bar-row';
@@ -610,7 +551,7 @@ async function main() {
       row.innerHTML = `
         <div class="bar-rank">#${dep.rank}</div>
         <div class="bar-name" title="${dep.nome}">${dep.nomeDisplay}</div>
-        <div class="bar-uf-tag" style="background:${color}22;color:${color}" data-full="${dep.uf} · ${dep.partido}">${dep.uf} · ${dep.partido}</div>
+        <div class="bar-uf-tag" style="background:${color}22;color:${color}" title="${dep.uf} · ${dep.partido}">${dep.uf} · ${dep.partido}</div>
         <div class="bar-wrap">
           <div class="bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
         </div>
@@ -619,9 +560,8 @@ async function main() {
       row.addEventListener('click', () => toggleDetail(dep.id));
       container.appendChild(row);
 
-
       const maxAno = dep.anos.length ? Math.max(...dep.anos.map(a => a.valor_total)) : 1;
-      const panel = document.createElement('div');
+      const panel  = document.createElement('div');
       panel.className = 'detail-panel';
       panel.id = `detail-${dep.id}`;
       panel.innerHTML = `
@@ -668,9 +608,8 @@ async function main() {
       container.appendChild(panel);
     });
 
-    // Show
     document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+    document.getElementById('app').style.display     = 'block';
     setTimeout(() => {
       document.querySelectorAll('.bar-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; });
     }, 150);
